@@ -25,6 +25,9 @@
     "playground-e2e": {
       "tags": [],
       "implicitDependencies": ["playground"]
+    },
+    "element-preserver": {
+      "tags": []
     }
   }
 }

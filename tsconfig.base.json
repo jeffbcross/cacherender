@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "angular-ssr-element-preserver": ["libs/element-preserver/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

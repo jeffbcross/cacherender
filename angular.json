@@ -25,7 +25,8 @@
     "@nrwl/angular:library": {
       "style": "scss",
       "linter": "eslint",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "strict": true
     },
     "@nrwl/angular:component": {
       "style": "scss"
@@ -187,6 +188,43 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/playground-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "element-preserver": {
+      "projectType": "library",
+      "root": "libs/element-preserver",
+      "sourceRoot": "libs/element-preserver/src",
+      "prefix": "cacherender",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/element-preserver/tsconfig.lib.json",
+            "project": "libs/element-preserver/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/element-preserver/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/element-preserver/src/**/*.ts",
+              "libs/element-preserver/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/element-preserver"],
+          "options": {
+            "jestConfig": "libs/element-preserver/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }

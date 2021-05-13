@@ -4,11 +4,7 @@ import { ElementPreserverService } from './element-preserver.service';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'preserve-elements',
-  template: `
-    <div class="preserve-elements-container">
-      <ng-content *ngIf="!cachedElement"></ng-content>
-    </div>
-  `,
+  template: ` <ng-content *ngIf="!cachedElement"></ng-content> `,
   styles: [],
 })
 export class PreserveElementsComponent implements OnInit {
