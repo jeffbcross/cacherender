@@ -1,6 +1,6 @@
 {
   "name": "angular-ssr-element-preserver",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^11.2.13",
     "@angular/core": "^11.2.13"

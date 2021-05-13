@@ -1,7 +1,6 @@
-import { DOCUMENT } from '@angular/common';
-import { Provider } from '@angular/core';
-
-type GlobalWithCache = typeof globalThis & { __preservedElementsMap__: any };
+type GlobalWithCache = typeof globalThis & {
+  __preservedElementsMap__: { [key: string]: HTMLElement };
+};
 
 export class ElementPreserverService {
   private _elementMap: { [key: string]: HTMLElement } | null = null;
@@ -13,24 +12,6 @@ export class ElementPreserverService {
     } else {
       this.initializeServer();
     }
-  }
-
-  static forBrowser(): Provider {
-    return {
-      provide: ElementPreserverService,
-      useFactory: (doc: Document) =>
-        new ElementPreserverService('browser', doc),
-      deps: [DOCUMENT],
-    };
-  }
-
-  static forPreRender(): Provider {
-    return {
-      provide: ElementPreserverService,
-      useFactory: (doc: Document) =>
-        new ElementPreserverService('prerender', doc),
-      deps: [DOCUMENT],
-    };
   }
 
   private initializeBrowser(): void {

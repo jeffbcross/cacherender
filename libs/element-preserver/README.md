@@ -11,6 +11,8 @@ There are limitations to this approach:
 
 ## How to Use
 
+These steps assume you already have pre-rendering set up.
+
 ### Step 1: Install
 
 ```sh
@@ -26,7 +28,7 @@ import { ElementPreserverModule } from 'angular-ssr-element-preserver';
   ...
   imports: [
     ElementPreserverModule.forBrowser(),
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    ...
   ],
   ...
 })
@@ -39,7 +41,10 @@ export class AppModule {}
 import { ElementPreserverModule } from 'angular-ssr-element-preserver';
 
 @NgModule({
-  imports: [AppModule, ServerModule, ElementPreserverModule.forServer()],
+  imports: [
+    ...
+    ElementPreserverModule.forServer()
+  ],
   ...
 })
 export class AppServerModule {}
@@ -75,5 +80,9 @@ It's important that this script ends up inserted after all the pre-rendered elem
 You must provide a unique `key` to the component, which will be used to track the element internally.
 
 ```html
-<preserve-elements [key]="'top-sidebar-recommendations'"> </preserve-elements>
+<preserve-elements [key]="'top-sidebar-recommendations'">
+  <div>Hello, you, here are some recommendations!</div>
+</preserve-elements>
 ```
+
+### Step 6: Run the app (with pre-rendering enabled)

@@ -3,6 +3,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { PreserveElementsComponent } from './preserve-elements.component';
 import { ElementPreserverService } from './element-preserver.service';
 
+// @dynamic
 @NgModule({
   imports: [CommonModule],
   declarations: [PreserveElementsComponent],
@@ -18,14 +19,16 @@ export class ElementPreserverModule {
   }
 }
 
-function getModuleWithProviders(context: 'browser' | 'prerender') {
+export function getModuleWithProviders(context: 'browser' | 'prerender') {
   return {
     ngModule: ElementPreserverModule,
     providers: [
       {
         provide: ElementPreserverService,
-        useFactory: (doc: Document) =>
-          new ElementPreserverService(context, doc),
+        useFactory: function (doc: Document) {
+          return new ElementPreserverService(context, doc);
+        },
+
         deps: [DOCUMENT],
       },
     ],
