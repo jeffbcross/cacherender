@@ -26,9 +26,23 @@ export class PreserveElementsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.key) throw new Error('Key required for preserve-elements');
-    this.cachedElement = this.preserver.getElement(this.key);
-    if (this.cachedElement) {
-      this.renderer.appendChild(this.ref.nativeElement, this.cachedElement);
+    if (this.preserver.context === 'prerender') {
+      this.renderer.setAttribute(
+        this.ref.nativeElement,
+        '__elPreserveKey',
+        this.key
+      );
+    } else {
+      /**
+       * This implementation just leaves the content as-is if
+       * there's no existing reference by this key.
+       * It might make sense to throw an error, if browser
+       * and server MUST be symmetrical.
+       **/
+      this.cachedElement = this.preserver.getElement(this.key);
+      if (this.cachedElement) {
+        this.renderer.appendChild(this.ref.nativeElement, this.cachedElement);
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ElementPreserverService } from './element-preserver.service';
 
 @Component({
   selector: 'cacherender-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'playground';
+  context = this.preserver.context;
+  constructor(private preserver: ElementPreserverService) {}
 }

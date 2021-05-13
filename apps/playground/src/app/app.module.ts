@@ -8,7 +8,7 @@ import { PreserveElementsComponent } from './preserve-elements.component';
 @NgModule({
   declarations: [AppComponent, PreserveElementsComponent],
   providers: [ElementPreserverService.forBrowser()],
-  imports: [BrowserModule],
+  imports: [BrowserModule.withServerTransition({ appId: 'serverApp' })],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

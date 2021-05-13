@@ -6,16 +6,23 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <script>
-      const preservedTemplate = document.createElement('div');
-      preservedTemplate.innerHTML = 'I have been preserved';
-
-      window.__preservedElementsMap__ = {
-        hello: preservedTemplate,
-      };
-    </script>
   </head>
   <body>
     <cacherender-root></cacherender-root>
+    <script type="text/javascript">
+      if (!window.__preservedElementsMap__) {
+        window.__preservedElementsMap__ = Array.prototype.reduce.call(
+          document.querySelectorAll('preserve-elements'),
+          (prev, curr, i) => {
+            let key = curr.getAttribute('__elPreserveKey');
+            return {
+              ...prev,
+              [key]: curr,
+            };
+          },
+          {}
+        );
+      }
+    </script>
   </body>
 </html>
