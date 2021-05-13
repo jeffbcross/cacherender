@@ -1,11 +1,5 @@
 import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-
-const preservedTemplate = document.createElement('div');
-preservedTemplate.innerHTML = 'I have been preserved';
-
-globalThis.cache = {
-  hello: preservedTemplate,
-};
+import { ElementPreserverService } from './element-preserver.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -22,16 +16,19 @@ export class PreserveElementsComponent implements OnInit {
   @Input() key: string;
   cachedElement: HTMLElement | null = null;
 
-  constructor(private ref: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private ref: ElementRef,
+    private renderer: Renderer2,
+    private preserver: ElementPreserverService
+  ) {
+    console.log('context', preserver.context);
+  }
 
   ngOnInit(): void {
     if (!this.key) throw new Error('Key required for preserve-elements');
-    this.cachedElement = globalThis.cache[this.key];
+    this.cachedElement = this.preserver.getElement(this.key);
     if (this.cachedElement) {
-      this.renderer.appendChild(
-        this.ref.nativeElement,
-        globalThis.cache[this.key]
-      );
+      this.renderer.appendChild(this.ref.nativeElement, this.cachedElement);
     }
   }
 }
