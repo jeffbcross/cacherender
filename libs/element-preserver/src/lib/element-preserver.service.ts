@@ -1,20 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  InjectionToken,
-  Optional,
-  Provider,
-  ɵsetDocument,
-} from '@angular/core';
+import { Provider } from '@angular/core';
 
-export const ElementPreserverContext = new InjectionToken(
-  'ElementPreserverContext'
-);
+type GlobalWithCache = typeof globalThis & { __preservedElementsMap__: any };
 
-@Injectable({
-  providedIn: 'root',
-})
 export class ElementPreserverService {
   private _elementMap: { [key: string]: HTMLElement } | null = null;
   context: 'browser' | 'prerender' = 'browser';
@@ -30,7 +18,8 @@ export class ElementPreserverService {
   static forBrowser(): Provider {
     return {
       provide: ElementPreserverService,
-      useFactory: (doc) => new ElementPreserverService('browser', doc),
+      useFactory: (doc: Document) =>
+        new ElementPreserverService('browser', doc),
       deps: [DOCUMENT],
     };
   }
@@ -38,13 +27,14 @@ export class ElementPreserverService {
   static forPreRender(): Provider {
     return {
       provide: ElementPreserverService,
-      useFactory: (doc) => new ElementPreserverService('prerender', doc),
+      useFactory: (doc: Document) =>
+        new ElementPreserverService('prerender', doc),
       deps: [DOCUMENT],
     };
   }
 
   private initializeBrowser(): void {
-    this._elementMap = globalThis.__preservedElementsMap__;
+    this._elementMap = (globalThis as GlobalWithCache).__preservedElementsMap__;
   }
 
   private initializeServer(): void {
@@ -53,6 +43,6 @@ export class ElementPreserverService {
 
   getElement(key: string): HTMLElement | null {
     if (this.context === 'prerender') return null;
-    return this._elementMap[key] || null;
+    return (this._elementMap && this._elementMap[key]) || null;
   }
 }

@@ -9,16 +9,14 @@ import { ElementPreserverService } from './element-preserver.service';
 })
 export class PreserveElementsComponent implements OnInit {
   // To store and lookup the contained elements from cache
-  @Input() key: string;
+  @Input() key: string | null = null;
   cachedElement: HTMLElement | null = null;
 
   constructor(
     private ref: ElementRef,
     private renderer: Renderer2,
     private preserver: ElementPreserverService
-  ) {
-    console.log('context', preserver.context);
-  }
+  ) {}
 
   ngOnInit(): void {
     if (!this.key) throw new Error('Key required for preserve-elements');
